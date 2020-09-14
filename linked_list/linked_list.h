@@ -14,6 +14,18 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <exception>
+
+class EmptyLinkedListException : std::exception
+{
+public:
+    EmptyLinkedListException() { };
+
+    const char* what() const noexcept override
+    {
+        return "LinkedList is Empty";
+    }
+};
 
 /// <summary>
 /// A simple linked list class implemented using smart pointers
@@ -67,7 +79,7 @@ public:
     /// Insert data into the linked list at the head
     /// </summary>
     /// <param>val</param> The data value to insert
-    void Insert(const data_t& val)
+    void InsertHead(const data_t& val)
     {
         auto new_node = std::make_unique<node_s>(val);
         if (head == nullptr)
@@ -78,6 +90,31 @@ public:
         {
             new_node->next = std::move(head);
             head = std::move(new_node);
+        }
+        BLOG(eLogInfo) << "Value [" << val << "] added to list.";
+    }
+
+    /// <summary>
+    /// Insert data into the linked list at the tail
+    /// </summary>
+    /// <param>val</param> The data value to insert
+    void InsertTail(const data_t& val)
+    {
+        if (Empty())
+        {
+            InsertHead(val);
+            return;
+        }
+
+        auto new_node = std::make_unique<node_s>(val);
+        node_s* curr = head.get();
+        while (curr != nullptr)
+        {
+            if (curr->next == nullptr)
+            {
+                curr->next = std::move(new_node);
+            }
+            curr = curr->next.get();
         }
         BLOG(eLogInfo) << "Value [" << val << "] added to list.";
     }
