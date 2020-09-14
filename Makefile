@@ -1,7 +1,7 @@
 
 TOPDIR = $(shell pwd)
 
-DIRS = linked_list
+DIRS = linked_list stack
 
 all:
 	list='$(DIRS)'; for subdir in $$list; do \
