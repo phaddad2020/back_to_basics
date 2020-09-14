@@ -14,18 +14,8 @@
 #include <iostream>
 #include <string>
 #include <memory>
-#include <exception>
 
-class EmptyLinkedListException : std::exception
-{
-public:
-    EmptyLinkedListException() { };
-
-    const char* what() const noexcept override
-    {
-        return "LinkedList is Empty";
-    }
-};
+#include "exceptions.h"
 
 /// <summary>
 /// A simple linked list class implemented using smart pointers
@@ -56,7 +46,7 @@ public:
     /// </summary>
     LinkedList()
     {
-        head == nullptr;
+        head = nullptr;
     }
 
     /// <summary>
@@ -130,7 +120,7 @@ public:
     {
         if (Empty())
         {
-            return;
+            throw EmptyContainerException { };
         }
 
         // First we need to check possibilities surrounding the head
