@@ -1,7 +1,7 @@
 
 TOPDIR = $(shell pwd)
 
-DIRS = linked_list stack
+DIRS = linked_list stack queue
 
 all:
 	list='$(DIRS)'; for subdir in $$list; do \
