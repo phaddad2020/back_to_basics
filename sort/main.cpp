@@ -10,12 +10,14 @@
 #include <stdint.h>
 #include <iostream>
 #include <string>
+#include <cstring>
 
 #include "logger.h"
 #include "timer.h"
 #include "read_file_values.h"
 
 #include "selection_sort.h"
+#include "bubble_sort.h"
 
 BLOG_INITIALISE(eLogDebug)
 TIMER_INIT
@@ -23,6 +25,38 @@ TIMER_INIT
 void print_usage(const char *program)
 {
     fprintf(stderr, "Usage: %s <filename>\n", program);
+}
+
+void print_array(long* arr, size_t size)
+{
+    if (!arr || size == 0)
+        return;
+
+    for (size_t i = 0; i < size; ++i)
+    {
+        std::cout << arr[i] << ", ";
+    }
+
+    std::cout << std::endl;
+}
+
+typedef enum sort_type_e
+{
+    SELECTION_SORT  = 0,
+    BUBBLE_SORT,
+} SortType_e;
+
+const char* convert_sort_type_to_str(int s_type)
+{
+    switch (s_type)
+    {
+    case SELECTION_SORT:
+        return "Selection Sort";
+    case BUBBLE_SORT:
+        return "Bubble Sort";
+    default:
+        return "Unknown Sort";
+    }
 }
 
 int main(int argc, char* argv[])
@@ -35,33 +69,51 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    // Selection sort by default
+    int sort_type = SELECTION_SORT;
+
+    if (argc == 3)
+    {
+        if (strcmp(argv[2], "-b") == 0)
+        {
+            sort_type = BUBBLE_SORT;
+        }
+    }
+
+    BLOG(eLogInfo) << "Sort method selected [" << convert_sort_type_to_str(sort_type) << "]...";
     BLOG(eLogInfo) << "Reading from file [" << argv[1] << "]...";
 
-    size_t big_array_size;
-    long *big_array = ReadFileValues::ConstructArrayData(argv[1], &big_array_size);
+    size_t array_size;
+    long *array = ReadFileValues::ConstructArrayData(argv[1], &array_size);
 
-    if (!big_array)
+    if (!array)
     {
         BLOG(eLogError) << "Could not create data array. Exiting...";
         return 1;
     }
 
-    BLOG(eLogInfo) << "File read and array created of size [" << big_array_size << "]...";
-
-    BLOG(eLogInfo) << "big_array[10]: " << big_array[10];
-    BLOG(eLogInfo) << "big_array[999]: " << big_array[999];
+    BLOG(eLogInfo) << "File read and array created of size [" << array_size << "]...";
 
     b_timer_t start_time = Timer::GetTimer();
-    SelectionSort::Sort(big_array, big_array_size);
+    switch (sort_type)
+    {
+    case SELECTION_SORT:
+        SelectionSort::Sort(array, array_size);
+        break;
+    case BUBBLE_SORT:
+        BubbleSort::Sort(array, array_size);
+        break;
+    default:
+        break;
+    }
     b_timer_t end_time = Timer::GetTimer();
     b_timer_t diff = end_time - start_time;
 
-    BLOG(eLogInfo) << "big_array[10]: " << big_array[10];
-    BLOG(eLogInfo) << "big_array[999]: " << big_array[999];
+    //print_array(array, array_size);
 
     BLOG(eLogInfo) << "Time to sort: " << diff << "us, " << TIMER_MSEC(diff) << "ms, " << TIMER_SEC(diff) << "secs";
 
-    delete big_array;
+    delete array;
 
     return 0;
 }
