@@ -19,6 +19,7 @@
 #include "selection_sort.h"
 #include "bubble_sort.h"
 #include "merge_sort.h"
+#include "quick_sort.h"
 
 BLOG_INITIALISE(eLogDebug)
 TIMER_INIT
@@ -46,6 +47,7 @@ typedef enum sort_type_e
     SELECTION_SORT  = 0,
     BUBBLE_SORT,
     MERGE_SORT,
+    QUICK_SORT,
 } SortType_e;
 
 const char* convert_sort_type_to_str(int s_type)
@@ -58,6 +60,8 @@ const char* convert_sort_type_to_str(int s_type)
         return "Bubble Sort";
     case MERGE_SORT:
         return "Merge Sort";
+    case QUICK_SORT:
+        return "Quick Sort";
     default:
         return "Unknown Sort";
     }
@@ -87,6 +91,11 @@ int main(int argc, char* argv[])
         {
             sort_type = MERGE_SORT;
         }
+
+        if (strcmp(argv[2], "-q") == 0)
+        {
+            sort_type = QUICK_SORT;
+        }
     }
 
     BLOG(eLogInfo) << "Sort method selected [" << convert_sort_type_to_str(sort_type) << "]...";
@@ -114,6 +123,10 @@ int main(int argc, char* argv[])
         break;
     case MERGE_SORT:
         MergeSort::Sort(array, 0, array_size - 1);
+        break;
+    case QUICK_SORT:
+        QuickSort::Sort(array, 0, array_size - 1);
+        break;
     default:
         break;
     }
