@@ -18,6 +18,7 @@
 
 #include "selection_sort.h"
 #include "bubble_sort.h"
+#include "merge_sort.h"
 
 BLOG_INITIALISE(eLogDebug)
 TIMER_INIT
@@ -44,6 +45,7 @@ typedef enum sort_type_e
 {
     SELECTION_SORT  = 0,
     BUBBLE_SORT,
+    MERGE_SORT,
 } SortType_e;
 
 const char* convert_sort_type_to_str(int s_type)
@@ -54,6 +56,8 @@ const char* convert_sort_type_to_str(int s_type)
         return "Selection Sort";
     case BUBBLE_SORT:
         return "Bubble Sort";
+    case MERGE_SORT:
+        return "Merge Sort";
     default:
         return "Unknown Sort";
     }
@@ -77,6 +81,11 @@ int main(int argc, char* argv[])
         if (strcmp(argv[2], "-b") == 0)
         {
             sort_type = BUBBLE_SORT;
+        }
+
+        if (strcmp(argv[2], "-m") == 0)
+        {
+            sort_type = MERGE_SORT;
         }
     }
 
@@ -103,6 +112,8 @@ int main(int argc, char* argv[])
     case BUBBLE_SORT:
         BubbleSort::Sort(array, array_size);
         break;
+    case MERGE_SORT:
+        MergeSort::Sort(array, 0, array_size - 1);
     default:
         break;
     }
