@@ -33,14 +33,21 @@ public:
 
         int m_idx;
 
+        // Outer loop per index
         for (size_t i = 0; i < arr_size - 1; ++i)
         {
+            // Set this as possible minimum index
             m_idx = i;
+
+            // Loop through sub-array from i+1 to n
             for (size_t j = i + 1; j < arr_size; ++j)
             {
+                // Check for the smallest index
                 if (array[j] < array[m_idx])
                     m_idx = j;
             }
+
+            // Swap smallest found with current index
             std::swap(array[m_idx], array[i]);
         }
     }
