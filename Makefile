@@ -1,7 +1,7 @@
 
 TOPDIR = $(shell pwd)
 
-DIRS = linked_list stack queue binary_tree
+DIRS = linked_list stack queue binary_tree utilities
 
 all:
 	list='$(DIRS)'; for subdir in $$list; do \
