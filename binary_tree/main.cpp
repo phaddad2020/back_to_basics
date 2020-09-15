@@ -81,12 +81,18 @@ int main(int argc, char* argv[])
 
     b_tree.InOrderTraversal();
 
+    BLOG(eLogInfo) << "Max Value: " << b_tree.GetMaxData();
+    BLOG(eLogInfo) << "Min Value: " << b_tree.GetMinData();
+
+    Person *temp_person = b_tree.Search(phillip);
+    if (temp_person)
+    {
+        BLOG(eLogInfo) << "Person found: " << *temp_person;
+    }
+
     b_tree.Remove(phillip);
 
     b_tree.InOrderTraversal();
-
-    BLOG(eLogInfo) << "Max Value: " << b_tree.GetMaxData();
-    BLOG(eLogInfo) << "Min Value: " << b_tree.GetMinData();
 
     return 0;
 }

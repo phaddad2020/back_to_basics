@@ -2,7 +2,7 @@
 PARENTDIR = $(shell pwd)/..
 
 CXX = g++
-CXXFLAGS = -std=c++17 -m64 -Wall -W -Werror -g
+CXXFLAGS = -std=c++17 -m64 -Wall -W -Werror -Wno-return-type -g
 TARGET = binary_tree
 
 INCLUDES = -I$(PARENTDIR)/global_inc -I.

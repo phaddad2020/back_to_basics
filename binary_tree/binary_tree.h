@@ -125,6 +125,20 @@ public:
         out << std::endl;
     }
 
+    /// <summary>
+    /// Traverse the tree searching for data node
+    /// </summary>
+    data_t* Search(const data_t& val) const
+    {
+        if (root == nullptr)
+        {
+            BLOG(eLogWarning) << "Binary Tree is empty!";
+            return nullptr;
+        }
+
+        return searchNode(root.get(), val);
+    }
+
 private:
     
     /// <summary>
@@ -262,6 +276,31 @@ private:
 
         if (root->right)
             traverseInOrder(out, root->right.get());
+    }
+
+    /// <summary>
+    /// Recursive function to traverse tree searching for provided data
+    /// </summary>
+    /// <param>root</param>The root node to search from
+    /// <param>val</param>The value to search for
+    data_t* searchNode(node_s* root, const data_t& val) const
+    {
+        if (!root)
+        {
+            return nullptr;
+        }
+        else if (val < root->data)
+        {
+            searchNode(root->left.get(), val);
+        }
+        else if (val > root->data)
+        {
+            searchNode(root->right.get(), val);
+        }
+        else
+        {
+            return &root->data;
+        }
     }
 
     /// <summary>
