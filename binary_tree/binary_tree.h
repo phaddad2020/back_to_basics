@@ -126,6 +126,36 @@ public:
     }
 
     /// <summary>
+    /// Traverse the tree pre order and print contents
+    /// <summary>
+    void PreOrderTraversal(std::ostream& out = std::cout) const
+    {
+        if (root == nullptr)
+        {
+            out << "Binary Tree is empty!" << std::endl;
+        }
+
+        traversePreOrder(out, root.get());
+
+        out << std::endl;
+    }
+
+    /// <summary>
+    /// Traverse the tree post order and print contents
+    /// <summary>
+    void PostOrderTraversal(std::ostream& out = std::cout) const
+    {
+        if (root == nullptr)
+        {
+            out << "Binary Tree is empty!" << std::endl;
+        }
+
+        traversePostOrder(out, root.get());
+
+        out << std::endl;
+    }
+
+    /// <summary>
     /// Traverse the tree searching for data node
     /// </summary>
     data_t* Search(const data_t& val) const
@@ -272,10 +302,45 @@ private:
         if (root->left)
             traverseInOrder(out, root->left.get());
 
-        out << root->data << " --> ";
+        if (root)
+            out << root->data << " --> ";
 
         if (root->right)
             traverseInOrder(out, root->right.get());
+    }
+
+    /// <summary>
+    /// Recursive function to travese pre order the binary tree while printing out
+    /// the data contents
+    /// <summary>
+    /// <param>out</param>The output stream to use
+    /// <param>root</param>The node to traverse from
+    void traversePreOrder(std::ostream& out, node_s* root) const
+    {
+        if (root)
+            out << root->data << " --> ";
+
+        if (root->left)
+            traversePreOrder(out, root->left.get());
+        if (root->right)
+            traversePreOrder(out, root->right.get());
+    }
+
+    /// <summary>
+    /// Recursive function to travese post order the binary tree while printing out
+    /// the data contents
+    /// <summary>
+    /// <param>out</param>The output stream to use
+    /// <param>root</param>The node to traverse from
+    void traversePostOrder(std::ostream& out, node_s* root) const
+    {
+        if (root->left)
+            traversePostOrder(out, root->left.get());
+        if (root->right)
+            traversePostOrder(out, root->right.get());
+
+        if (root)
+            out << root->data << " --> ";
     }
 
     /// <summary>

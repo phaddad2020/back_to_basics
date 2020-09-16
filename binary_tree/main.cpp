@@ -93,6 +93,8 @@ int main(int argc, char* argv[])
     b_tree.Remove(phillip);
 
     b_tree.InOrderTraversal();
+    b_tree.PreOrderTraversal();
+    b_tree.PostOrderTraversal();
 
     return 0;
 }
